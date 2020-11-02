@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse,Http404
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Employee
 from .serializers import EmployeeSerializer
-from django.shortcuts import render,HttpResponse,redirect
+
 # Create your views here.
 
 class EmployeeList(APIView):
@@ -19,13 +20,13 @@ class EmployeeList(APIView):
 
     def post(self, request):
         emp = request.data
-
+        
         # Create an article from the above data
         serializer = EmployeeSerializer(data=emp)
         emp_saved=""
         if serializer.is_valid(raise_exception=True):
             emp_saved = serializer.save()
-        return Response({"success": "Employee'{}' created successfully".format(emp_saved.Name)})
+        return Response(serializer.data)
 
 
 
@@ -58,3 +59,8 @@ class EmployeeDetail(APIView):
         emp = self.get_object(pk)
         emp.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+def index(request):
+
+    return render(request,'index.html')

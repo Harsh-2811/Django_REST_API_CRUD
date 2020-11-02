@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Rest API</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <style>
+        @media(min-width: 768px) {
+  .field-label-responsive {
+    padding-top: .5rem;
+    text-align: right;
+  }
+}
+    </style>
+</head>
+<body>
+<div class="container">
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h2 id="task_title">Enter New Employee</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="name">Name</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                        <input type="text" name="name" class="form-control" id="name"
+                               placeholder="John Doe" required autofocus>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- Put name validation error messages here -->
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="email">E-Mail Address</label>
+            </div>
+            <input type="hidden" id='edit_id'>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                        <input type="text" name="email" class="form-control" id="email"
+                               placeholder="you@example.com" required autofocus>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- Put e-mail validation error messages here -->
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="contact">Contact Number</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-danger">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-phone"></i></div>
+                        <input type="number" name="contact" class="form-control" id="contact"
+                               placeholder="Mobile No" required>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+           <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="department">Department</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-danger">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-building-o"></i></div>
+                        <input type="text" name="department" class="form-control" id="department"
+                               placeholder="department" required>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" id='new_data'>
+                <button type="button" id="add_emp" class="btn btn-success"><i class="fa fa-user-plus"></i> Register</button>
+            </div>
+            <div class="col-md-6" style="display: none" id='edit_form'>
+                <button type="button" id="edit_emp" class="btn btn-success"><i class="fa fa-user-plus"></i> Edit Data</button>
+            </div>
+        </div>
+
+</div>
+<div class="container">
+	<div class="row">
+
+
+        <div class="col-md-12">
+        <h2 style="text-align:center">Employee Data</h2>
+        <div class="table-responsive">
+
+
+              <table id="mytable" class="table table-bordred table-striped">
+
+                   <thead>
+
+                   <th><input type="checkbox" id="checkall" /></th>
+                   <th>Name</th>
+
+                   <th>Email</th>
+                   <th>Contact</th>
+                   <th>Department</th>
+                      <th>Edit</th>
+
+                       <th>Delete</th>
+                   </thead>
+    <tbody id="tb_body">
+
+
+
+
+
+    </tbody>
+
+</table>
+
+<div class="clearfix"></div>
+
+
+            </div>
+
+        </div>
+	</div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+ $(document).ready(function(){
+$("#mytable #checkall").click(function () {
+        if ($("#mytable #checkall").is(':checked')) {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
+            });
+
+        } else {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
+
+   
+});
+
+</script>
+<script>
+    $.ajax('employee/', {
+    type: 'GET',  // http method
+
+    success: function (data, status, xhr) {
+        
+        for (var i in data) {
+        $('#tb_body').append(`<tr id="row_${data[i].id}">
+    <td><input type="checkbox" class="checkthis" /></td>
+    <td class="td_name">${data[i].Name}</td>
+    <td class="td_email">${data[i].Email}</td>
+    <td class="td_contact">${data[i].Mobile_No}</td>
+    <td class="td_dept">${data[i].Department}</td>
+    <td><p data-placement="top" title="Edit" ><button id="${data[i].id}" class="edit_button btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+    <td><p data-placement="top" title="Delete"><button id="${data[i].id}" class="btn btn-danger btn-xs delete_button" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+    </tr>`)
+
+
+        }
+    },
+    error: function (jqXhr, textStatus, errorMessage) {
+            swal(errorMessage);
+    }
+});
+
+
+ $("#add_emp").click(function(){
+      datatosend = {
+
+        Name : $("#name").val() ,
+        Email : $("#email").val() ,
+        Mobile_No : $("#contact").val() ,
+     Department : $("#department").val()
+    }
+    $.ajax('employee/', {
+   
+    type: 'POST',  // http method
+    data : datatosend,
+    success: function (data, status, xhr) {
+        swal("Saved!", "Employee Data Successfully Saved", "success");
+         
+        $('#tb_body').append(`<tr id="row_${data.id}">
+    <td><input type="checkbox" class="checkthis" /></td>
+    <td class="td_name">${data.Name}</td>
+    <td class="td_email">${data.Email}</td>
+    <td class="td_contact">${data.Mobile_No}</td>
+    <td class="td_dept">${data.Department}</td>
+    <td><p data-placement="top" data-toggle="tooltip" title="Edit" ><button id="${data.id}" onclick='get_emp()' class="btn btn-primary btn-xs edit_button"  ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+    <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button id="${data.id}" class="btn btn-danger btn-xs delete_button"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+    </tr>`)
+
+        $("#name").val(' ');
+        $("#email").val(' ');
+        $("#contact").val(0);
+        $("#department").val(' ');
+        
+        
+    },
+    error: function (jqXhr, textStatus, errorMessage) {
+             alert(errorMessage);
+    }
+});
+
+ });
+    
+    
+$(document).on("click", "button.edit_button", function(){
+    var id = $(this).attr('id');
+    $.ajax('employee/'+id, {
+   
+    type: 'GET',  // http method
+    
+    success: function (data, status, xhr) {
+        
+
+        $("#name").val(data.Name);
+        $("#email").val(data.Email);
+        $("#contact").val(data.Mobile_No);
+        $("#department").val(data.Department);
+        $('#edit_form').css('display','block');
+        $('#new_data').css('display','none');
+        $('#task_title').html("Edit Details");
+        $('#edit_id').val(data.id);
+
+    },
+    error: function (jqXhr, textStatus, errorMessage) {
+            alert(errorMessage);
+    }
+});
+});
+    
+$(document).on("click", "button.delete_button", function(){
+    var id = $(this).attr('id');
+    $.ajax('employee/'+id+'/', {
+   
+    type: 'DELETE',  // http method
+    
+    success: function (data, status, xhr) {
+        
+         swal("Deleted!", "Employee Data Successfully Deleted", "success");
+        
+        $("#row_"+id).remove();
+
+    },
+    error: function (jqXhr, textStatus, errorMessage) {
+            alert(errorMessage);
+    }
+});
+});
+    
+$('#edit_emp').click(function(){
+    var id = $('#edit_id').val();
+     datatosend = {
+
+        Name : $("#name").val() ,
+        Email : $("#email").val() ,
+        Mobile_No : $("#contact").val() ,
+     Department : $("#department").val()
+    }
+     $.ajax('employee/'+id+'/', {
+   
+    type: 'PUT',  // http method
+    data:datatosend,
+    success: function (data, status, xhr) {
+         swal("Edited!", "Employee Data Successfully Edited", "success");
+        $("#row_"+id+" .td_name").html(datatosend.Name);
+        $("#row_"+id+" .td_email").html(datatosend.Email);
+        $("#row_"+id+" .td_contact").html(datatosend.Mobile_No);
+        $("#row_"+id+" .td_dept").html(datatosend.Department);
+        
+
+         $("#name").val(' ');
+        $("#email").val(' ');
+        $("#contact").val(0);
+        $("#department").val(' ');
+        $('#new_data').css('display','block');
+        $('#edit_form').css('display','none');
+        $('#task_title').html("Enter New Employee");
+
+    },
+    error: function (jqXhr, textStatus, errorMessage) {
+            alert(errorMessage);
+    }
+});
+})
+</script>
+</body>
+</html>

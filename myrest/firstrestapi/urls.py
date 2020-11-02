@@ -3,7 +3,8 @@ from . import  views
 emp=views.EmployeeList()
 
 urlpatterns = [
-    path("",emp.get,name=""),
+    path("",views.EmployeeList().as_view(),name=""),
+    #path("",views.index,name=""),
     path('<int:pk>/', views.EmployeeDetail.as_view(),name="update"),
 
 ]
